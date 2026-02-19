@@ -28,13 +28,7 @@ app.get('/blog', (req, res)=>{
   });
 });
 
-app.get("/404", (req, res) => {
-  res.status(404);
-  res.render('default-layout', {
-     title: "Page Not Found",
-     content: "<h1>Sorry!</h1><h3>We can't find the page you're requesting.</h3>"
-  });
-});
+
 
 
 
@@ -66,7 +60,17 @@ app.post('/contact/submit', (req, res) => {
   res.send("<h1>TODO: Handle contact form posts</h1>" + JSON.stringify(req.body));
 });
 
-app.all('*', (req, res) => {
+
+
+app.get("/404", (req, res) => {
+  res.status(404);
+  res.render('default-layout', {
+     title: "Page Not Found",
+     content: "<h1>Sorry!</h1><h3>We can't find the page you're requesting.</h3>"
+  });
+});
+
+app.all('/*path', (req, res) => {
   res.status(404).redirect("/404");
 });
 // START THE SERVER
