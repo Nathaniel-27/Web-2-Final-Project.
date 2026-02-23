@@ -2,6 +2,7 @@ h1{ color: midnightblue; }
 /* ── Reset & Base ─────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* top EJS */
 /* ══════════════════════════════════════════════════════════
    @import must be first — before any other rules
    ══════════════════════════════════════════════════════════ */
@@ -292,3 +293,906 @@ code:not([class*="language-"]) {
     font-size: 0.8rem;
   }
 }
+
+/*Bottom EJS*/
+
+/* ══════════════════════════════════════════════════════════
+   @import must come first
+   ══════════════════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@600;700;800&display=swap');
+
+/* ── Reset ────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Design Tokens ────────────────────────────────────── */
+:root {
+  /* Cyan palette */
+  --cyan-100: #cffafe;
+  --cyan-400: #22d3ee;
+  --cyan-500: #06b6d4;
+  --cyan-600: #0777a0;    /* 4.6:1 on white ✓ WCAG AA */
+  --cyan-900: #083344;
+
+  /* Text */
+  --ink:       #0a1628;   /* 16.5:1 on white ✓ */
+  --body-text: #1a3a4a;   /* 10.2:1 on white ✓ */
+  --nav-text:  #3d6678;   /*  5.1:1 on white ✓ */
+
+  /* Surfaces */
+  --surface:   #f0fbff;
+  --white:     #ffffff;
+  --border:    #9dd8ea;   /* 3:1 on white for UI components ✓ */
+
+  /* Spacing scale (4px base) */
+  --space-1:  0.25rem;   /*  4px */
+  --space-2:  0.5rem;    /*  8px */
+  --space-3:  0.75rem;   /* 12px */
+  --space-4:  1rem;      /* 16px */
+  --space-5:  1.25rem;   /* 20px */
+  --space-6:  1.5rem;    /* 24px */
+  --space-8:  2rem;      /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --radius: 6px;
+}
+
+/* ── Smooth scroll — motion-safe only ────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'DM Mono', monospace;
+  background-color: var(--surface);
+  color: var(--ink);
+  line-height: 1.7;
+  min-height: 100vh;
+  /* header / nav / content / footer */
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+}
+
+/* ── Skip-to-content ──────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  padding: var(--space-2) var(--space-5);
+  background: var(--cyan-900);
+  color: var(--white);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  z-index: 9999;
+  transition: top 150ms ease;
+}
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid var(--cyan-400);
+  outline-offset: 2px;
+}
+
+/* ── Header ───────────────────────────────────────────── */
+header {
+  background: var(--cyan-900);
+  padding: var(--space-8) var(--space-10);
+  border-bottom: 3px solid var(--cyan-400);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative glow — invisible to assistive tech */
+header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 80% 50%, rgba(34,211,238,0.14) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+header h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 800;
+  color: var(--white);            /* 16.1:1 on --cyan-900 ✓ */
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  position: relative;             /* above ::after glow */
+}
+
+/*
+  CSS alt text trick: content: '…' / ''
+  The slash makes the alt text empty so screen readers skip
+  the decorative slashes entirely (CSS Generated Content spec §2.2).
+*/
+header h1::before {
+  content: '// ' / '';
+  color: var(--cyan-400);
+  font-weight: 400;
+}
+
+/* ── Nav ──────────────────────────────────────────────── */
+nav {
+  background: var(--white);
+  border-bottom: 2px solid var(--border);
+  padding: 0 var(--space-10);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  /* Thin shadow reinforces the sticky elevation without being heavy */
+  box-shadow: 0 2px 20px rgba(8,51,68,0.07);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+}
+
+nav ul li a {
+  display: block;
+  padding: var(--space-4) var(--space-5);
+  text-decoration: none;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.8125rem;           /* 13px — crisp at this weight */
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nav-text);         /* 5.1:1 on white ✓ WCAG AA */
+  position: relative;
+  transition: color 200ms var(--ease-standard);
+}
+
+/* Animated underline — draws in from left, wipes out to right */
+nav ul li a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--cyan-400), var(--cyan-500));
+  border-radius: 2px 2px 0 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+nav ul li a:not(:hover):not(:focus-visible)::after {
+  transform-origin: right center;
+}
+
+nav ul li a:hover {
+  color: var(--cyan-600);         /* 4.6:1 on white ✓ WCAG AA */
+}
+
+nav ul li a:hover::after,
+nav ul li a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/*
+  Solid outline for focus — survives Windows High Contrast mode.
+  box-shadow alone does not.
+*/
+nav ul li a:focus-visible {
+  color: var(--cyan-600);
+  outline: 3px solid var(--cyan-500);
+  outline-offset: -3px;
+  border-radius: 3px 3px 0 0;
+}
+
+/* Lift + glow — only when the user is OK with motion */
+@media (prefers-reduced-motion: no-preference) {
+  nav ul li a {
+    transition: color 200ms var(--ease-standard),
+                transform 200ms var(--ease-standard),
+                text-shadow 200ms var(--ease-standard);
+  }
+
+  nav ul li a::after {
+    transition: transform 260ms var(--ease-standard);
+  }
+
+  nav ul li a:hover,
+  nav ul li a:focus-visible {
+    transform: translateY(-2px);
+    text-shadow: 0 0 16px rgba(7,119,160,0.25);
+  }
+}
+
+/* ── Global focus ring ────────────────────────────────── */
+:focus-visible {
+  outline: 3px solid var(--cyan-500);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Content ──────────────────────────────────────────── */
+#content {
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--space-12) var(--space-10);
+}
+
+/* ── Typography ───────────────────────────────────────── */
+h2, h3, h4 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  color: var(--cyan-900);         /* 12.5:1 on white ✓ */
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+/* Breathing room above headings when they follow content */
+* + h2 { margin-top: var(--space-10); }
+* + h3 { margin-top: var(--space-8);  }
+* + h4 { margin-top: var(--space-6);  }
+
+h2 { font-size: 1.75rem;  margin-bottom: var(--space-4); }
+h3 { font-size: 1.3125rem; margin-bottom: var(--space-3); }
+h4 { font-size: 1.0625rem; margin-bottom: var(--space-2); }
+
+p {
+  margin-bottom: var(--space-5);
+  color: var(--body-text);        /* 10.2:1 on white ✓ */
+  max-width: 72ch;                /* ~65–75ch is the optimal reading measure */
+}
+
+/* Links — underline always present, not just on hover (WCAG 1.4.1) */
+a {
+  color: var(--cyan-600);         /* 4.6:1 on white ✓ */
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 150ms ease, text-decoration-thickness 150ms ease;
+}
+a:hover {
+  color: var(--cyan-900);
+  text-decoration-thickness: 2px;
+}
+
+/* Lists */
+ul, ol {
+  padding-left: var(--space-6);
+  margin-bottom: var(--space-5);
+  color: var(--body-text);
+}
+li { margin-bottom: var(--space-1); }
+
+/* Horizontal rule */
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: var(--space-10) 0;
+}
+
+/* ── Code / Prism overrides ───────────────────────────── */
+pre[class*="language-"] {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 12px rgba(8,51,68,0.06);
+  overflow-x: auto;
+  margin-bottom: var(--space-5);
+}
+
+code:not([class*="language-"]) {
+  background: var(--cyan-100);
+  color: var(--cyan-900);         /* 12.5:1 on --cyan-100 ✓ */
+  padding: 0.125em 0.4em;
+  border-radius: 3px;
+  font-size: 0.875em;
+}
+
+/* ── Footer ───────────────────────────────────────────── */
+footer {
+  background: var(--cyan-900);
+  border-top: 3px solid var(--cyan-400);
+  padding: var(--space-6) var(--space-10);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  position: relative;
+  overflow: hidden;
+  /* Typography */
+  font-family: 'Syne', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--cyan-100);         /* 11.4:1 on --cyan-900 ✓ */
+}
+
+/* Decorative glow — mirrors header, flipped to left */
+footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 15% 50%, rgba(34,211,238,0.11) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Keep text above the pseudo-element glow */
+footer > * { position: relative; }
+
+/* Copyright — softer weight so the site name leads */
+footer span {
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  opacity: 0.72;
+}
+
+/* ── Windows High Contrast / Forced Colors ───────────── */
+@media (forced-colors: active) {
+  header               { border-bottom-color: Highlight; }
+  header h1::before    { color: Highlight; }
+  nav ul li a::after   { background: Highlight; }
+  footer               { border-top-color: Highlight; }
+  footer, footer span  { color: ButtonText; opacity: 1; }
+  a                    { color: LinkText; }
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 640px) {
+  header,
+  nav,
+  #content,
+  footer {
+    padding-left: var(--space-5);
+    padding-right: var(--space-5);
+  }
+
+  #content {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
+  }
+
+  footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-5);
+  }
+
+  /* WCAG 2.5.8 — minimum 44px touch target height */
+  nav ul li a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-4);
+    font-size: 0.8rem;
+  }
+}
+
+/* blog list EJS */
+/* ══════════════════════════════════════════════════════════
+   @import must come first
+   ══════════════════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@600;700;800&display=swap');
+
+/* ── Reset ────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Design Tokens ────────────────────────────────────── */
+:root {
+  /* Cyan palette */
+  --cyan-100: #cffafe;
+  --cyan-400: #22d3ee;
+  --cyan-500: #06b6d4;
+  --cyan-600: #0777a0;    /* 4.6:1 on white ✓ WCAG AA */
+  --cyan-900: #083344;
+
+  /* Text */
+  --ink:       #0a1628;   /* 16.5:1 on white ✓ */
+  --body-text: #1a3a4a;   /* 10.2:1 on white ✓ */
+  --nav-text:  #3d6678;   /*  5.1:1 on white ✓ */
+
+  /* Surfaces */
+  --surface:   #f0fbff;
+  --white:     #ffffff;
+  --border:    #9dd8ea;   /* 3:1 on white for UI components ✓ */
+
+  /* Spacing scale (4px base) */
+  --space-1:  0.25rem;   /*  4px */
+  --space-2:  0.5rem;    /*  8px */
+  --space-3:  0.75rem;   /* 12px */
+  --space-4:  1rem;      /* 16px */
+  --space-5:  1.25rem;   /* 20px */
+  --space-6:  1.5rem;    /* 24px */
+  --space-8:  2rem;      /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --radius: 6px;
+}
+
+/* ── Smooth scroll — motion-safe only ────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'DM Mono', monospace;
+  background-color: var(--surface);
+  color: var(--ink);
+  line-height: 1.7;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+}
+
+/* ── Skip-to-content ──────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  padding: var(--space-2) var(--space-5);
+  background: var(--cyan-900);
+  color: var(--white);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  z-index: 9999;
+  transition: top 150ms ease;
+}
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid var(--cyan-400);
+  outline-offset: 2px;
+}
+
+/* ── Header ───────────────────────────────────────────── */
+header {
+  background: var(--cyan-900);
+  padding: var(--space-8) var(--space-10);
+  border-bottom: 3px solid var(--cyan-400);
+  position: relative;
+  overflow: hidden;
+}
+
+header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 80% 50%, rgba(34,211,238,0.14) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+header h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 800;
+  color: var(--white);            /* 16.1:1 on --cyan-900 ✓ */
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  position: relative;
+}
+
+/*
+  content: '// ' / '' — slash sets CSS alt text to empty string
+  so screen readers skip the decorative slashes (CSS spec §2.2).
+*/
+header h1::before {
+  content: '// ' / '';
+  color: var(--cyan-400);
+  font-weight: 400;
+}
+
+/* ── Nav ──────────────────────────────────────────────── */
+nav {
+  background: var(--white);
+  border-bottom: 2px solid var(--border);
+  padding: 0 var(--space-10);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(8,51,68,0.07);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+}
+
+nav ul li a {
+  display: block;
+  padding: var(--space-4) var(--space-5);
+  text-decoration: none;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nav-text);         /* 5.1:1 on white ✓ WCAG AA */
+  position: relative;
+  transition: color 200ms var(--ease-standard);
+}
+
+nav ul li a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--cyan-400), var(--cyan-500));
+  border-radius: 2px 2px 0 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+nav ul li a:not(:hover):not(:focus-visible)::after {
+  transform-origin: right center;
+}
+
+nav ul li a:hover {
+  color: var(--cyan-600);         /* 4.6:1 on white ✓ WCAG AA */
+}
+
+nav ul li a:hover::after,
+nav ul li a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+nav ul li a:focus-visible {
+  color: var(--cyan-600);
+  outline: 3px solid var(--cyan-500);
+  outline-offset: -3px;
+  border-radius: 3px 3px 0 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  nav ul li a {
+    transition: color 200ms var(--ease-standard),
+                transform 200ms var(--ease-standard),
+                text-shadow 200ms var(--ease-standard);
+  }
+  nav ul li a::after {
+    transition: transform 260ms var(--ease-standard);
+  }
+  nav ul li a:hover,
+  nav ul li a:focus-visible {
+    transform: translateY(-2px);
+    text-shadow: 0 0 16px rgba(7,119,160,0.25);
+  }
+}
+
+/* ── Global focus ring ────────────────────────────────── */
+:focus-visible {
+  outline: 3px solid var(--cyan-500);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Content ──────────────────────────────────────────── */
+#content {
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--space-12) var(--space-10);
+}
+
+/* ── Typography ───────────────────────────────────────── */
+h2, h3, h4 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  color: var(--cyan-900);         /* 12.5:1 on white ✓ */
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+* + h2 { margin-top: var(--space-10); }
+* + h3 { margin-top: var(--space-8);  }
+* + h4 { margin-top: var(--space-6);  }
+
+h2 { font-size: 1.75rem;   margin-bottom: var(--space-4); }
+h3 { font-size: 1.3125rem; margin-bottom: var(--space-3); }
+h4 { font-size: 1.0625rem; margin-bottom: var(--space-2); }
+
+p {
+  margin-bottom: var(--space-5);
+  color: var(--body-text);        /* 10.2:1 on white ✓ */
+  max-width: 72ch;
+}
+
+a {
+  color: var(--cyan-600);         /* 4.6:1 on white ✓ */
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 150ms ease, text-decoration-thickness 150ms ease;
+}
+a:hover {
+  color: var(--cyan-900);
+  text-decoration-thickness: 2px;
+}
+
+ul, ol {
+  padding-left: var(--space-6);
+  margin-bottom: var(--space-5);
+  color: var(--body-text);
+}
+li { margin-bottom: var(--space-1); }
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: var(--space-10) 0;
+}
+
+/* ── Code / Prism overrides ───────────────────────────── */
+pre[class*="language-"] {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 12px rgba(8,51,68,0.06);
+  overflow-x: auto;
+  margin-bottom: var(--space-5);
+}
+
+code:not([class*="language-"]) {
+  background: var(--cyan-100);
+  color: var(--cyan-900);         /* 12.5:1 on --cyan-100 ✓ */
+  padding: 0.125em 0.4em;
+  border-radius: 3px;
+  font-size: 0.875em;
+}
+
+/* ── Footer ───────────────────────────────────────────── */
+footer {
+  background: var(--cyan-900);
+  border-top: 3px solid var(--cyan-400);
+  padding: var(--space-6) var(--space-10);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  position: relative;
+  overflow: hidden;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--cyan-100);         /* 11.4:1 on --cyan-900 ✓ */
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 15% 50%, rgba(34,211,238,0.11) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+footer > * { position: relative; }
+
+footer span {
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  opacity: 0.72;
+}
+
+/* ── Main / Blog page ─────────────────────────────────── */
+/*
+  <main> is a direct child of <body>, outside #content,
+  so it needs its own layout constraints.
+*/
+main {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: var(--space-12) var(--space-10);
+}
+
+main > h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-weight: 800;
+  color: var(--cyan-900);         /* 12.5:1 on white ✓ */
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-5);
+  border-bottom: 2px solid var(--border);
+  position: relative;
+}
+
+/* Short cyan accent bar — same gradient language as nav underline */
+main > h1::after {
+  content: '' / '';               /* alt text: empty — purely decorative */
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: linear-gradient(90deg, var(--cyan-400), var(--cyan-500));
+  border-radius: 2px;
+}
+
+/* ── Blog Post List ───────────────────────────────────── */
+main > ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* ── Post Card ────────────────────────────────────────── */
+main > ul > li {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--cyan-400);
+  border-radius: var(--radius);
+  padding: var(--space-6) var(--space-8);
+  margin-bottom: 0;
+  /* Shadow transition is safe — no vestibular impact */
+  transition: box-shadow 220ms var(--ease-standard),
+              border-left-color 220ms var(--ease-standard);
+  box-shadow: 0 1px 4px rgba(8,51,68,0.05);
+}
+
+/* Card lift only for users who are OK with motion */
+@media (prefers-reduced-motion: no-preference) {
+  main > ul > li {
+    transition: box-shadow 220ms var(--ease-standard),
+                border-left-color 220ms var(--ease-standard),
+                transform 220ms var(--ease-standard);
+  }
+  main > ul > li:hover {
+    transform: translateY(-2px);
+  }
+}
+
+main > ul > li:hover {
+  box-shadow: 0 4px 20px rgba(8,51,68,0.10);
+  border-left-color: var(--cyan-500);
+}
+
+/* Post title link */
+main > ul > li > a {
+  display: inline-block;
+  font-family: 'Syne', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--cyan-900);         /* 12.5:1 on white ✓ */
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  margin-bottom: var(--space-3);
+  /* Draw-in underline — mirrors nav animation */
+  background-image: linear-gradient(var(--cyan-500), var(--cyan-500));
+  background-size: 0% 2px;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  /* Color transition is always safe */
+  transition: color 180ms var(--ease-standard);
+}
+
+/* Underline animation only when motion is OK */
+@media (prefers-reduced-motion: no-preference) {
+  main > ul > li > a {
+    transition: color 180ms var(--ease-standard),
+                background-size 250ms var(--ease-standard);
+  }
+}
+
+main > ul > li > a:hover,
+main > ul > li > a:focus-visible {
+  color: var(--cyan-600);         /* 4.6:1 on white ✓ */
+  background-size: 100% 2px;
+}
+
+main > ul > li > a:focus-visible {
+  outline: 3px solid var(--cyan-500);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Post description */
+main > ul > li > p:nth-of-type(1) {
+  font-size: 0.9375rem;
+  color: var(--body-text);        /* 10.2:1 on white ✓ */
+  line-height: 1.65;
+  margin-bottom: var(--space-4);
+  max-width: 68ch;
+}
+
+/* Meta row — author + date rendered inline */
+main > ul > li > p:nth-of-type(2),
+main > ul > li > p:nth-of-type(3) {
+  display: inline;
+  font-size: 0.8125rem;
+  color: var(--nav-text);         /* 5.1:1 on white ✓ */
+  font-family: 'DM Mono', monospace;
+  font-weight: 400;
+  margin-bottom: 0;
+  max-width: none;
+}
+
+/*
+  Bullet separator injected between author and date.
+  content: '·' / '' — alt text empty so AT reads
+  "Author Name Published Date" not "Author Name · Published Date"
+*/
+main > ul > li > p:nth-of-type(2)::after {
+  content: ' · ' / '';
+  opacity: 0.45;
+}
+
+/* ── Windows High Contrast / Forced Colors ───────────── */
+@media (forced-colors: active) {
+  header                     { border-bottom-color: Highlight; }
+  header h1::before          { color: Highlight; }
+  nav ul li a::after         { background: Highlight; }
+  footer                     { border-top-color: Highlight; }
+  footer, footer span        { color: ButtonText; opacity: 1; }
+  a                          { color: LinkText; }
+  main > h1::after           { background: Highlight; }
+  main > ul > li             { border-left-color: Highlight; border-color: ButtonText; }
+  main > ul > li > a         { color: LinkText; background-image: none; }
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 640px) {
+  header,
+  nav,
+  #content,
+  main,
+  footer {
+    padding-left: var(--space-5);
+    padding-right: var(--space-5);
+  }
+
+  #content,
+  main {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
+  }
+
+  footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-5);
+  }
+
+  /* WCAG 2.5.8 — minimum 44px touch target */
+  nav ul li a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-4);
+    font-size: 0.8rem;
+  }
+
+  main > ul > li {
+    padding: var(--space-5);
+  }
+
+  /* Stack meta on very small screens */
+  main > ul > li > p:nth-of-type(2),
+  main > ul > li > p:nth-of-type(3) {
+    display: block;
+  }
+
+  main > ul > li > p:nth-of-type(2)::after {
+    content: none;
+  }
+}
+
+/* blog-posts EJS */

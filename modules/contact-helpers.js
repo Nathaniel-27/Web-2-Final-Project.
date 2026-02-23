@@ -33,8 +33,34 @@ function isValidContactFormSubmit(firstName, lastName, email, comments){
 }
 
 function sendEmailNotification(message, callback){
-  // TODO: we'll work on this function later
-}
 
+  // import the node mailer package
+  const nodemailer = require('nodemailer');
+
+  const DOMAIN = "https://nathanieljohnscodinghub.westernstudent.com/" // ex: mywebsite.com
+  const EMAIL_SERVER = "nathanieljohnscodinghub.westernstudent.com" + DOMAIN;
+  const EMAIL_ADDRESS = "johnsn@nathanieljohnscodinghub.westernstudent.com" + DOMAIN;
+  const EMAIL_PASSWORD = "5isnINiGH8cr";
+
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    host: EMAIL_SERVER,
+    port: 465,
+    secure: true,
+    auth: {
+      user: EMAIL_ADDRESS,
+      pass: EMAIL_PASSWORD,
+    },
+  });
+
+  const email = {
+    from: EMAIL_ADDRESS,
+    to:EMAIL_ADDRESS,
+    subject: 'Contact Submit From Your Website',
+    text: message
+ };
+
+ transporter.sendMail(email, callback);
+}
 exports.isValidContactFormSubmit = isValidContactFormSubmit;
 exports.sendEmailNotification = sendEmailNotification;
