@@ -22,4 +22,4 @@ const jsonObjectString = bugReports = [
 JSON.parse(jsonObjectString);
 ```
 
-    Why we stringify, web developers stringify as you cant just send plain JS objects over the internet as it just wont work so using JSON to stringify your obejcts allows you to send your JS objects over the internet. Where youll mostly see JSON used in web development is forms where your sending the data to a web server to be stored in a data base like SQL. So in essence when your working with anyhting that requires sending data over the internet you will use JSON to achieve this.
+    Why we stringify, web developers stringify as you cant just send plain JS objects over the internet as it just wont work so using JSON to stringify your objects allows you to send your JS objects over the internet. Where you'll mostly see JSON used in web development is forms where your sending the data to a web server to be stored in a data base like SQL. So in essence when your working with anything that requires sending data over the internet you will use JSON to achieve this.
