@@ -1196,4 +1196,168 @@ main > ul > li > p:nth-of-type(2)::after {
 }
 
 /* blog-posts EJS */
+/* ══════════════════════════════════════════════════════════
+   BLOG POST PAGE — post.css
+   Targets the EJS structure exactly as written:
 
+   <main>
+     <h1>         — post title
+     <p>          — description / standfirst
+     <p>          — author + published date
+     <%- content %> — article body (raw HTML)
+   </main>
+
+   Drop this AFTER main.css in your <head>:
+   <link rel="stylesheet" href="/css/post.css">
+   ══════════════════════════════════════════════════════════ */
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   POST TITLE
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+main > h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.875rem, 5vw, 2.75rem);
+  font-weight: 800;
+  color: var(--cyan-900);         /* 12.5:1 on white ✓ */
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: var(--sp-4);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DESCRIPTION — lead/standfirst paragraph
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+main > h1 + p {
+  font-size: 1.125rem;
+  color: var(--body-text);        /* 10.2:1 on white ✓ */
+  line-height: 1.7;
+  max-width: 60ch;
+  margin-bottom: var(--sp-4);
+  font-weight: 400;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   META ROW — author + published date
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+main > h1 + p + p {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8125rem;           /* 13px */
+  color: var(--meta-text);        /* 5.1:1 on white ✓ WCAG AA */
+  margin-bottom: 0;
+  max-width: none;
+  padding-bottom: var(--sp-8);
+  border-bottom: 2px solid var(--border);
+  position: relative;
+}
+
+/* Short cyan accent bar — same visual language as the rest of the site */
+main > h1 + p + p::after {
+  content: '' / ' ';             /* alt text: space — AT skips it ✓ */
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: linear-gradient(90deg, var(--cyan-400), var(--cyan-500));
+  border-radius: 2px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ARTICLE BODY — everything after the meta row
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+main > h1 + p + p + * {
+  margin-top: var(--sp-8);
+}
+
+/* Headings inside post content */
+main > h1 + p + p ~ h2,
+main > h1 + p + p ~ h3,
+main > h1 + p + p ~ h4 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  color: var(--cyan-900);         /* 12.5:1 on white ✓ */
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+main > h1 + p + p ~ h2 { font-size: 1.625rem; margin: var(--sp-10) 0 var(--sp-4); }
+main > h1 + p + p ~ h3 { font-size: 1.25rem;  margin: var(--sp-8)  0 var(--sp-3); }
+main > h1 + p + p ~ h4 { font-size: 1rem;     margin: var(--sp-6)  0 var(--sp-2); }
+
+/* Body paragraphs — slightly more open line-height for long-form reading */
+main > h1 + p + p ~ p {
+  font-size: 1rem;
+  color: var(--body-text);        /* 10.2:1 on white ✓ */
+  line-height: 1.8;
+  margin-bottom: var(--sp-5);
+  max-width: 70ch;
+}
+
+/* Lists */
+main > h1 + p + p ~ ul,
+main > h1 + p + p ~ ol {
+  padding-left: var(--sp-6);
+  margin-bottom: var(--sp-5);
+  color: var(--body-text);
+}
+
+main > h1 + p + p ~ ul li,
+main > h1 + p + p ~ ol li {
+  font-size: 1rem;
+  line-height: 1.75;
+  margin-bottom: var(--sp-2);
+}
+
+/* Blockquote */
+main > h1 + p + p ~ blockquote {
+  border-left: 4px solid var(--cyan-400);
+  margin: var(--sp-8) 0;
+  padding: var(--sp-4) var(--sp-6);
+  background: var(--white);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  box-shadow: 0 1px 4px rgba(8,51,68,0.05);
+}
+
+main > h1 + p + p ~ blockquote p {
+  font-size: 1.0625rem;
+  font-style: italic;
+  color: var(--meta-text);        /* 5.1:1 on white ✓ */
+  margin-bottom: 0;
+  max-width: none;
+  line-height: 1.7;
+}
+
+/* Horizontal rule */
+main > h1 + p + p ~ hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: var(--sp-10) 0;
+}
+
+/* Images */
+main > h1 + p + p ~ img,
+main > h1 + p + p ~ p > img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  display: block;
+  margin: var(--sp-8) 0;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FORCED COLORS / WINDOWS HIGH CONTRAST
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (forced-colors: active) {
+  main > h1 + p + p::after          { background: Highlight; }
+  main > h1 + p + p ~ blockquote    { border-left-color: Highlight; }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RESPONSIVE
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 640px) {
+  main > h1 + p + p ~ blockquote {
+    padding: var(--sp-4);
+  }
+}
