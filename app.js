@@ -6,6 +6,17 @@ const app = express();
 const bodyParser = require('body-parser');
 const {getBlogList, convertMarkdown} = require("./modules/markdown-helpers")
 const pathToBlogFolder = __dirname + '/blog/';
+app.use((req, res, next) => {
+   if (process.env.NODE_ENV === 'production') {
+      if (req.headers['x-forwarded-proto'] !== 'https')
+         // the statement for performing our redirection
+         return res.redirect('https://' + req.headers.host + req.url);
+      else
+         return next();
+   }else{
+      return next();
+   }
+});
 
 // MIDDLEWARE
 app.use(express.static('public'));
@@ -14,9 +25,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // ROUTES
 app.get('/', (req, res) => {
-  res.render('home', {
-     title: "My Home Page"
-  });
+  // res.render('home', {
+  //   title: "My Home Page"
+  // });
+  res.redirect("/blog");
 });
 
 
@@ -56,28 +68,37 @@ app.get('/contact', (req, res) => {
   });
 });
 
-
 app.post('/contact/submit', (req, res) => {
 
-  // import the contact-helper functions that we need
+  // import the helper functions that we need
   const {isValidContactFormSubmit, sendEmailNotification} = require("./modules/contact-helpers");
 
-  // Extract the form input from the request body:
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
-  const email = req.body.email;
-  const comments = req.body.comments;
-  // Note: You could extract the form input with a single line that 'de-structures' the request body:
-  //const {firstName, lastName, email, comments} = req.body;
+  // Destructure the req.body object into variables
+  const {firstName, lastName, email, comments} = req.body;
 
   // Validate the variables
   if(isValidContactFormSubmit(firstName, lastName, email, comments)){
-    res.send("TODO: Everything is valid, so send an email to my email account");
+    // Everything is valid, so send an email to YOUR email address with the data entered into the form
+    const message = `From: ${firstName} ${lastName}\n
+                    Email: ${email}\n
+                    Message: ${comments}`;
+
+    sendEmailNotification(message, (err, info) => {
+      if(err){
+        console.log(err);
+        res.status(500).send("There was an error sending the email");
+      }else{
+        // TODO: render the confirmation page (but for now we'll just send the 'info' param to the browser)
+        res.send(info);
+      }
+    })
+
   }else{
-    res.status(400).send("Invalid request - input is not valid");
+    res.status(400).send("Invalid request - data is not valid")
   }
 
 });
+
 
 
 app.get("/404", (req, res) => {
