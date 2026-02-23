@@ -103,7 +103,7 @@ header h1 {
   so assistive tech skips the decorative slashes (CSS spec §2.2).
 */
 header h1::before {
-  content: '// ' / '';
+  content: ' '  '';
   color: var(--cyan-400);
   font-weight: 400;
 }
@@ -413,7 +413,7 @@ header h1 {
   the decorative slashes entirely (CSS Generated Content spec §2.2).
 */
 header h1::before {
-  content: '// ' / '';
+  content: ' '  '';
   color: var(--cyan-400);
   font-weight: 400;
 }
@@ -786,7 +786,7 @@ header h1 {
   so screen readers skip the decorative slashes (CSS spec §2.2).
 */
 header h1::before {
-  content: '// ' / '';
+  content: ' '  '';
   color: var(--cyan-400);
   font-weight: 400;
 }
@@ -1011,7 +1011,7 @@ main > h1 {
 
 /* Short cyan accent bar — same gradient language as nav underline */
 main > h1::after {
-  content: '' / '';               /* alt text: empty — purely decorative */
+  content: ''  '';               /* alt text: empty — purely decorative */
   position: absolute;
   bottom: -2px;
   left: 0;
@@ -1129,7 +1129,7 @@ main > ul > li > p:nth-of-type(3) {
   "Author Name Published Date" not "Author Name · Published Date"
 */
 main > ul > li > p:nth-of-type(2)::after {
-  content: ' · ' / '';
+  content: ' · '  '';
   opacity: 0.45;
 }
 
@@ -1252,7 +1252,7 @@ main > h1 + p + p {
 
 /* Short cyan accent bar — same visual language as the rest of the site */
 main > h1 + p + p::after {
-  content: '' / ' ';             /* alt text: space — AT skips it ✓ */
+  content: ''  ' ';             /* alt text: space — AT skips it ✓ */
   position: absolute;
   bottom: -2px;
   left: 0;
@@ -1360,4 +1360,36 @@ main > h1 + p + p ~ p > img {
   main > h1 + p + p ~ blockquote {
     padding: var(--sp-4);
   }
+}
+
+/* CSS for Icon formating*/
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1rem; /* space between menu items */
+}
+
+nav ul li {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem; /* tighter space between icon and text */
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    font-size: 1rem;       /* ensures good readability */
+}
+
+nav ul li a:focus,
+nav ul li a:hover {
+    color: #1a73e8;         /* accessible hover/focus color */
+    outline: none;
+}
+
+nav ul li i {
+    font-size: 1rem;        /* keeps icons same size as text */
 }
