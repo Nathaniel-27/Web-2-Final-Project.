@@ -12,8 +12,7 @@ Non Web accessible HTML
 ```html
 <div class="nav">Home Page</div>
 <div class="blogs">Blog Post</div>
-
-```html
+```
 Web Accessible HTML
 ```html
 <nav>Home Page</nav>
@@ -23,6 +22,7 @@ ARIA code samples
 ```html
 <button aria-label="Sample button">Click ME!</button>
 ```
+```html
 <input aria-describedby="username-hint">
 <span id="username-hint">Enter your username</span>
 ```
