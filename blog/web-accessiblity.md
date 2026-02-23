@@ -5,23 +5,22 @@ Firstly, Web Accessibility is about accessibility especially for those whose abi
 
     Another very important part of web accessibility is having alt text on images which is a requirement as you can get into a lot of legal trouble as not making your website web accessible violates the Americans with disabilities act. Consequences for violating the ADA are fines of $75-150 thousand dollars, costly demand letters and can ruin your brand's image and reputation and a lawsuit can be damaging or potentially bankrupt you if you are a smaller or small business. There is no need to worry if you site is ADA compliant as a quick google search you can find plenty of compliance checkers and tools that are available for free. So there is zero reason for your website to ever be ADA non compliant. 
 
-    ARIA or Accessible rich internet applications are a collection of HTML attrubutes that are added to a page to give screen readers more context when plain HTML just isnt enough.
-
+    ARIA or Application rich internet appliactions is a collection of HTML attrubites that give more context to screen readers when plain html just isnt enough for the screen reader. For example, adding an aria-label to a submit button tells the screen reader exactly what the button does. Another common use is on form input is aria-describedby, which provieds additional hints or error messages when the form is missing input or input is not correct.
 
 ### Code Samples
 Non Web accessible HTML
-```
+```html
 <div class="nav">Home Page</div>
 <div class="blogs">Blog Post</div>
 
-```
+```html
 Web Accessible HTML
-```
+```html
 <nav>Home Page</nav>
 <main>Content goes here</main>
 
 ARIA code samples 
-```
+```html
 <button aria-label="Sample button">Click ME!</button>
 ```
 <input aria-describedby="username-hint">
