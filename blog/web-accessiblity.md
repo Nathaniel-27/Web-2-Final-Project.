@@ -1,3 +1,12 @@
+---
+title: Web Accessibility
+description: This is a short article about what I learned about web accessibility 
+author: Nathaniel Johns
+published: February 22, 2026
+---
+
+Your blog content goes here!
+
 # What I learned about Web accessibility  
 Firstly, Web Accessibility is about accessibility especially for those whose abilities are limited, the purpose is to ensure the web is accessible to all and the web is designed to be accessible for all.
 
@@ -8,21 +17,24 @@ Firstly, Web Accessibility is about accessibility especially for those whose abi
     ARIA or Application rich internet appliactions is a collection of HTML attrubites that give more context to screen readers when plain html just isnt enough for the screen reader. For example, adding an aria-label to a submit button tells the screen reader exactly what the button does. Another common use is on form input is aria-describedby, which provieds additional hints or error messages when the form is missing input or input is not correct.
 
 ### Code Samples
-Non Web accessible HTML
-```html
-<div class="nav">Home Page</div>
-<div class="blogs">Blog Post</div>
-```
-Web Accessible HTML
-```html
-<nav>Home Page</nav>
-<main>Content goes here</main>
 
-ARIA code samples 
+Non Web accessible HTML:
 ```html
-<button aria-label="Sample button">Click ME!</button>
+Home Page
+Blog Post
+```
+
+Web Accessible HTML:
+```html
+Home Page
+Content goes here
+```
+
+ARIA code samples:
+```html
+Click ME!
 ```
 ```html
-<input aria-describedby="username-hint">
-<span id="username-hint">Enter your username</span>
+
+Enter your username
 ```

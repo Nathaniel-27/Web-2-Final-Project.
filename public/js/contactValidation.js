@@ -29,6 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
     lastNameError.innerText = "";
     emailError.innerText = "";
     commentsError.innerText = "";
+    firstNameInput.removeAttribute("aria-invalid");
+    lastNameInput.removeAttribute("aria-invalid");
+    emailInput.removeAttribute("aria-invalid");
+    commentsInput.removeAttribute("aria-invalid");
 
     let isValid = true;
     const firstName = firstNameInput.value.trim();
@@ -39,6 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // First Name
     if (!firstName) {
       firstNameError.innerText = "Please enter your first name";
+      firstNameInput.setAttribute("aria-invalid", "true");
+      firstNameInput.focus();
       isValid = false;
     } else if (containsURL(firstName)) {
       firstNameError.innerText = "No URLs allowed in first name";

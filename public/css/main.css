@@ -1362,52 +1362,53 @@ main > h1 + p + p ~ p > img {
   }
 }
 
-/* CSS for Icon formating*/
+/* CSS for Icon formatting*/
 nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
-    gap: 1rem; /* space between menu items */
+    gap: 1rem;
 }
 
 nav ul li {
     display: flex;
     align-items: center;
-    gap: 0.15rem; /* tighter space between icon and text */
+    gap: 0.15rem;
 }
 
 nav ul li a {
     text-decoration: none;
     color: #333;
     font-weight: 500;
-    font-size: 1rem;       /* ensures good readability */
+    font-size: 1rem;
 }
 
 nav ul li a:focus,
 nav ul li a:hover {
-    color: #1a73e8;         /* accessible hover/focus color */
-    outline: none;
+    color: #1a73e8;
+    outline: 3px solid var(--cyan-500);
+    outline-offset: -3px;
 }
 
 nav ul li i {
-    font-size: 1rem;        /* keeps icons same size as text */
+    font-size: 1rem;
 }
 
 /* Validation messages for form inputs */
 .validation {
-  color: red;
+  color: #b91c1c;
   font-weight: bold;
   margin-left: 5px;
-  font-size: 0.9em; /* optional: makes it a bit smaller than input text */
+  font-size: 0.9em;
 }
 
 /* Responsive behavior for small screens */
 @media all and (max-width: 800px) {
   .validation {
     display: block;
-    margin-left: 0; /* removes left margin for narrow screens */
-    margin-top: 2px; /* small gap above error text */
+    margin-left: 0;
+    margin-top: 2px;
   }
 }
 

@@ -1,6 +1,11 @@
 const fs = require('fs');
 const matter = require('gray-matter'); // converts md file (with gray matter) into an object
-const md = require("markdown-it")({html:true});// html:true allows you to put HTML tags in the markdown files
+const md = require("markdown-it")({
+  html: true,
+  highlight: function(str, lang) {
+    return `<pre class="language-${lang}"><code class="language-${lang}">${md.utils.escapeHtml(str)}</code></pre>`;
+  }
+});
 
 /**
  * Converts a markdown file into an object that includes properties
