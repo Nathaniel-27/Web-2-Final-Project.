@@ -1,13 +1,16 @@
 <%- include('partials/top') %>
-<main>
+<main aria-label="Blog Posts">
   <h1>Blog Posts</h1>
-  <ul>
+  <ul aria-label="list of Blog Posts">
   <% for (let i = 0; i < posts.length; i++) { %>
       <li>
+         <h2>
+            <a href="<%=posts[i].link%>"><%=posts[i].title%></a>
+          </h2>
          <a href="<%=posts[i].link%>"><%=posts[i].title%></a>
          <p><%=posts[i].description%></p>
-         <p><%=posts[i].author%></p>
-         <p><%=posts[i].published%></p>
+         <p><span aria-label="Author">✍️ </span><%=posts[i].author%></p>
+         <p><time datetime="<%=posts[i].published%>"></time><%=posts[i].published%></p>
       </li>
   <% } %>
   </ul>
