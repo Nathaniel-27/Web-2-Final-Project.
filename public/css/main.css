@@ -1393,3 +1393,26 @@ nav ul li a:hover {
 nav ul li i {
     font-size: 1rem;        /* keeps icons same size as text */
 }
+
+/* Validation messages for form inputs */
+.validation {
+  color: red;
+  font-weight: bold;
+  margin-left: 5px;
+  font-size: 0.9em; /* optional: makes it a bit smaller than input text */
+}
+
+/* Responsive behavior for small screens */
+@media all and (max-width: 800px) {
+  .validation {
+    display: block;
+    margin-left: 0; /* removes left margin for narrow screens */
+    margin-top: 2px; /* small gap above error text */
+  }
+}
+
+/* Optional: add spacing between input and error */
+input, textarea, select {
+  display: block;
+  margin-bottom: 5px;
+}

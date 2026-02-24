@@ -18,7 +18,7 @@ function isValidContactFormSubmit(firstName, lastName, email, comments){
   if(firstName && lastName && email && comments){
     // make sure no SPAM has been included in the form
     if(containsURL(firstName) || containsURL(lastName) || containsURL(comments)){
-      
+
       return false;
     }
     // make sure the email address is valid
@@ -32,6 +32,8 @@ function isValidContactFormSubmit(firstName, lastName, email, comments){
   return false;
 
 }
+
+
 
 function sendEmailNotification(message, callback){
 
