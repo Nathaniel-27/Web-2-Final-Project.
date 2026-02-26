@@ -83,36 +83,22 @@ app.post('/contact/submit', (req, res) => {
                     Email: ${email}\n
                     Message: ${comments}`;
 
-    function sendEmailNotification(message, callback){
+    sendEmailNotification(message, (err, info) => {
+      if(err){
+        console.log(err);
+        res.status(500).send("There was an error sending the email");
+      }else{
+        // TODO: render the confirmation page (but for now we'll just send the 'info' param to the browser)
+        // res.send(info);
 
-  // import the node mailer package
-  const nodemailer = require('nodemailer');
+        res.render("default-layout", {
+          title: "Contact Confirmation",
+          content: "<h2>Thank you for contacting me!</h2><p>I'll get back to you ASAP.</p>"
+        })
 
-  const DOMAIN = "YOUR DOMAIN GOES HERE" // ex: mywebsite.com
-  const EMAIL_SERVER = "mail." + DOMAIN;
-  const EMAIL_ADDRESS = "_mainaccount@" + DOMAIN;
-  const EMAIL_PASSWORD = "YOUR cPanel PASSWORD GOES HERE";
-
-  // create reusable transporter object using the default SMTP transport
-  let transporter = nodemailer.createTransport({
-    host: EMAIL_SERVER,
-    port: 465,
-    secure: true,
-    auth: {
-      user: EMAIL_ADDRESS,
-      pass: EMAIL_PASSWORD,
-    },
-  });
-
-  const email = {
-    from: EMAIL_ADDRESS,
-    to:EMAIL_ADDRESS,
-    subject: 'Contact Submit From Your Website',
-    text: message
- };
-
- transporter.sendMail(email, callback);
-}
+      }
+      
+    })
 
   }else{
     res.status(400).send("Invalid request - data is not valid")
@@ -120,18 +106,7 @@ app.post('/contact/submit', (req, res) => {
 
 });
 
-sendEmailNotification(message, (err, info) => {
-  if(err){
-    console.log(err);
-    res.status(500).send("There was an error sending the email");
-  }else{
-    // Render a template that confirms the contact form info was recieved:
-    res.render("default-layout", {
-      title: "Contact Confirmation",
-      content: "<h2>Thank you for contacting me!</h2><p>I'll get back to you ASAP.</p>"
-    })
-  }
-});
+
 
 app.get("/404", (req, res) => {
   res.status(404);

@@ -40,9 +40,9 @@ function sendEmailNotification(message, callback){
   // import the node mailer package
   const nodemailer = require('nodemailer');
 
-  const DOMAIN = "https://nathanieljohnscodinghub.westernstudent.com/" // ex: mywebsite.com
-  const EMAIL_SERVER = "nathanieljohnscodinghub.westernstudent.com" + DOMAIN;
-  const EMAIL_ADDRESS = "johnsn@nathanieljohnscodinghub.westernstudent.com" + DOMAIN;
+  const DOMAIN = "nathanieljohnscodinghub.westernstudent.com" // ex: mywebsite.com
+  const EMAIL_SERVER = "mail." + DOMAIN;
+  const EMAIL_ADDRESS = "_mainaccount@" + DOMAIN;
   const EMAIL_PASSWORD = "5isnINiGH8cr";
 
   // create reusable transporter object using the default SMTP transport
